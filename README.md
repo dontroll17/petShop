@@ -1,4 +1,4 @@
-# hell
+# Pet shop
 
 ## Project setup
 ```
