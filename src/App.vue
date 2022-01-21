@@ -72,41 +72,21 @@
         </div>
         <hr>
 
+        <!--Products-->
+        <ProductList :products="products" :token="token"/>
 
-        <div class="container">
-            <div class="row">
-                <div v-for="item in products" :key="item._id" class="col-3">
-                    <h5 @click="getProductById(item._id)" class="text-primary product-name">{{ item.name }}</h5>
-                    <p>{{ item.price }}</p>
-                    <img :src="`http://localhost:1111/${item.productImage}`" height="150" alt="">
-                    <br>
-                    <button class="btn btn-danger">Buy NOW or DIE!</button>
-                    <br>
-                    <button v-if="token" @click="removeProduct(item._id)" class="btn btn-dark">Эвтаназия</button>
-                </div>
-            </div>
-        </div>
 
-        <div>
-            <b-modal id="modal-1" title="Погладь котика!">
-                <div v-if="productDetails">
-                    <h5>{{ productDetails.name }}</h5>
-                    <p>{{ productDetails.price }}</p>
-                    <img :src="`http://localhost:1111/${productDetails.productImage}`" height="150" alt="">
-                    <br>
-                    <button class="btn btn-danger">Buy NOW or DIE!</button>
-                    <br>
-                    <button v-if="token" @click="removeProduct(item._id)" class="btn btn-dark">Эвтаназия</button>
-                </div>
-            </b-modal>
-        </div>
     </div>
 </template>
 
 <script>
     import axios from 'axios';
+    import ProductList from "./components/ProductList";
     export default {
         name: 'App',
+        components: {
+            ProductList
+        },
         data(){
            return{
                regInputEmail: '',
@@ -119,18 +99,14 @@
                nameProduct: '',
                priceProduct: 0,
                fileProduct: null,
-               products: [],
-               productDetails: null
+               productDetails: null,
+               changeName: '',
+               changePrice: '',
+               changeImg: null,
+               changeId: null
            }
         },
-       async mounted() {
-           await this.getProducts();
-        },
         methods: {
-            async getProducts() {
-                const res = await axios.get('http://localhost:1111/products');
-                this.products = res.data.products;
-            },
             async registration(){
                let res = await axios.post('http://localhost:1111/user/signup', {
                    email: this.regInputEmail,
@@ -155,6 +131,9 @@
             imgProduct(e){
                 this.fileProduct = e.target.files[0];
             },
+            changeProductImg(e){
+                this.changeImg = e.target.files[0];
+            },
             async sendProduct(){
                 if(!this.token) return;
 
@@ -170,11 +149,24 @@
                     }
                 });
                 console.log(res);
+                await this.getProducts();
             },
-            async getProductById(id){
-                let res = await axios.get(`http://localhost:1111/products/${id}`);
-                this.productDetails = res.data.product;
-                this.$bvModal.show('modal-1');
+            async changeProduct(){
+                if(!this.token) return;
+
+                let fileData = new FormData();
+                fileData.append( 'name', this.changeName);
+                fileData.append( 'price', this.changePrice);
+                fileData.append('productimage', this.changeImg);
+
+                const res = await axios.patch(`http://localhost:1111/products/${this.changeId}`,fileData,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': `token ${this.token}`
+                    }
+                });
+                console.log(res);
+                await this.getProducts();
             },
             async removeProduct(id){
                 let res = await axios.delete(`http://localhost:1111/products/${id}`,{
