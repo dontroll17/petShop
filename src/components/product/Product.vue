@@ -25,12 +25,10 @@
         ],
         methods: {
             async getProductById(id){
-
                 this.$emit('showDetails', id);
             },
             editProductModel(id){
-                this.changeId = id;
-                this.$bvModal.show('modal-2');
+                this.$emit('editProduct', id);
             },
             async removeProduct(id){
                 let res = await axios.delete(`http://localhost:1111/products/${id}`,{
