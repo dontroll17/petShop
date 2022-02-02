@@ -49,8 +49,7 @@
                     }
                 });
                 console.log(res);
-                this.$emit('productCreated', res.data.createdProduct._id);
-                //await this.getProducts();
+                this.$emit('productCreated');
             }
         }
     }

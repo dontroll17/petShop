@@ -1,5 +1,6 @@
 body{
     background: linear-gradient(to left, #ffffff, #efefef);
+    padding-bottom: 300px;
 }
 .product-name{
     cursor: pointer;

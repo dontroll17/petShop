@@ -1,17 +1,28 @@
 <template>
     <div class="container">
+
         <div class="row">
-            <div v-for="item in products" :key="item._id" class="col-3">
-                <Product
-                    :product="item"
+            <div v-if="token" class="col-3 p-4">
+                <h3>Create new product</h3>
+                <CreateNewProduct
                     :token="token"
-                    @productChange="getProducts"
-                    @showDetails="showProductDetails"
-                    @editProduct="editProduct"
+                    @productCreated="getProducts"
                 />
             </div>
+            <div class="col">
+                <div class="row">
+                    <div v-for="item in products" :key="item._id" class="col-3 p-2">
+                        <Product
+                            :product="item"
+                            :token="token"
+                            @productChange="getProducts"
+                            @showDetails="showProductDetails"
+                            @editProduct="editProduct"
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
-
 
         <div>
             <b-modal id="modal-1" title="Погладь котика!">
@@ -35,14 +46,17 @@
 </template>
 
 <script>
+    import axios from "axios";
     import Product from "./Product";
     import EditProduct from "./EditProduct";
-    import axios from "axios";
+    import CreateNewProduct from "./CreateNewProduct";
+
     export default{
         name: 'ProductList',
         components: {
             Product,
-            EditProduct
+            EditProduct,
+            CreateNewProduct
         },
         data(){
             return {
@@ -52,14 +66,8 @@
             }
         },
         props: [
-            'token',
-            'newProductId'
+            'token'
         ],
-        watch: {
-            newProductId(){
-                this.getProducts();
-            }
-        },
         async mounted() {
             await this.getProducts();
         },
