@@ -4,7 +4,7 @@
         <p>{{ product.price }}</p>
         <img :src="`http://localhost:1111/${product.productImage}`" height="150" alt="">
         <br>
-        <button class="btn btn-danger">Buy NOW or DIE!</button>
+        <button v-if="token" @click="orderModal(product._id)" class="btn btn-danger">Buy NOW or DIE!</button>
         <br>
         <button v-if="token" @click="removeProduct(product._id)" class="btn btn-dark">Эвтаназия</button>
         <br>
@@ -24,11 +24,14 @@
             'token'
         ],
         methods: {
-            async getProductById(id){
+            getProductById(id){
                 this.$emit('showDetails', id);
             },
             editProductModel(id){
                 this.$emit('editProduct', id);
+            },
+            orderModal(id){
+                this.$emit('orderModal', id);
             },
             async removeProduct(id){
                 let res = await axios.delete(`http://localhost:1111/products/${id}`,{

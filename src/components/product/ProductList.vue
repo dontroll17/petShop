@@ -1,8 +1,8 @@
 <template>
     <div class="container">
-
+        <h1>Products</h1>
         <div class="row">
-            <div v-if="token" class="col-3 p-4">
+            <div v-if="token" class="col-3 p-2">
                 <h3>Create new product</h3>
                 <CreateNewProduct
                     :token="token"
@@ -18,6 +18,7 @@
                             @productChange="getProducts"
                             @showDetails="showProductDetails"
                             @editProduct="editProduct"
+                            @orderModal="showOrderModal"
                         />
                     </div>
                 </div>
@@ -40,6 +41,13 @@
                     @successEdit="getProducts"
                 />
             </b-modal>
+            <b-modal id="order-modal" title="Buy!!!">
+                <CreateOrder
+                    :orderProductId="orderProductId"
+                    :token="token"
+                    :ordersRefresh="ordersRefresh"
+                />
+            </b-modal>
         </div>
 
     </div>
@@ -50,23 +58,27 @@
     import Product from "./Product";
     import EditProduct from "./EditProduct";
     import CreateNewProduct from "./CreateNewProduct";
+    import CreateOrder from "../order/CreateOrder";
 
     export default{
         name: 'ProductList',
         components: {
             Product,
             EditProduct,
-            CreateNewProduct
+            CreateNewProduct,
+            CreateOrder,
         },
         data(){
             return {
                 products: [],
                 productDetails: null,
-                productEditId: null
+                productEditId: null,
+                orderProductId: null
             }
         },
         props: [
-            'token'
+            'token',
+            'ordersRefresh'
         ],
         async mounted() {
             await this.getProducts();
@@ -84,6 +96,10 @@
             editProduct(id){
                 this.productEditId = id;
                 this.$bvModal.show('modal-2');
+            },
+            showOrderModal(id){
+                this.orderProductId = id;
+                this.$bvModal.show('order-modal');
             }
         }
     }

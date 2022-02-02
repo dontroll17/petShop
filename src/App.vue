@@ -21,8 +21,16 @@
         <hr>
 
         <!--Products-->
-        <ProductList :token="token"/>
+        <ProductList
+            :token="token"
+            :ordersRefresh="ordersRefresh"
+        />
 
+        <OrderList
+            v-if="token"
+            :token="token"
+            @readyForRefresh="ordersRefresh = $event"
+        />
 
     </div>
 </template>
@@ -31,16 +39,19 @@
     import ProductList from "./components/product/ProductList";
     import Registration from "./components/user/Registration";
     import Login from "./components/user/Login";
+    import OrderList from "./components/order/OrderList";
     export default {
         name: 'App',
         components: {
             ProductList,
             Registration,
-            Login
+            Login,
+            OrderList
         },
         data(){
            return{
-               token: ''
+               token: '',
+               ordersRefresh: null
            }
         },
         methods: {
