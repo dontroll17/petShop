@@ -32,6 +32,7 @@
                     :token="token"
                     @editProduct="editProduct"
                     @productChange="getProducts"
+                    @orderModal="showOrderModal"
                 />
             </b-modal>
             <b-modal id="modal-2" title="Измени котика!">
@@ -60,7 +61,7 @@
     import CreateNewProduct from "./CreateNewProduct";
     import CreateOrder from "../order/CreateOrder";
 
-    export default{
+    export default {
         name: 'ProductList',
         components: {
             Product,
@@ -68,7 +69,7 @@
             CreateNewProduct,
             CreateOrder,
         },
-        data(){
+        data() {
             return {
                 products: [],
                 productDetails: null,
@@ -93,11 +94,11 @@
                 this.productDetails = res.data.product;
                 this.$bvModal.show('modal-1');
             },
-            editProduct(id){
+            editProduct(id) {
                 this.productEditId = id;
                 this.$bvModal.show('modal-2');
             },
-            showOrderModal(id){
+            showOrderModal(id) {
                 this.orderProductId = id;
                 this.$bvModal.show('order-modal');
             }

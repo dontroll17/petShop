@@ -17,6 +17,9 @@
                             <td>{{ item._id }}</td>
                             <td>{{ item.product.name }}</td>
                             <td>{{ item.quantity }}</td>
+                            <td class="td-delete">
+                                <button @click="deleteOrder(item._id)" class="btn btn-danger">X</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -49,6 +52,14 @@
                     }
                 });
                 this.ordersList = res.data.orders;
+            },
+            async deleteOrder(id) {
+                await axios.delete(`http://localhost:1111/orders/${id}`, {
+                    headers: {
+                        'Authorization': `token ${this.token}`
+                    }
+                })
+                await this.getOrders();
             }
         }
     }
