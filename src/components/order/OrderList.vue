@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <h1>Orders from Morder</h1>
         <div class="row">
             <div class="col">
                 <table class="table table-hover">
@@ -14,7 +15,7 @@
                     <tbody>
                         <tr v-for="(item, idx) in ordersList" :key="item._id">
                             <th scope="row">{{idx + 1}}</th>
-                            <td>{{ item._id }}</td>
+                            <td @click="showDetail(item._id)" class="product-name">{{ item._id }}</td>
                             <td>{{ item.product.name }}</td>
                             <td>{{ item.quantity }}</td>
                             <td class="td-delete">
@@ -23,6 +24,13 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <b-modal id="order-modal-detail" title="Детали">
+                    <OrderDetail
+                        :orderId="orderId"
+                        :token="token"
+                    />
+                </b-modal>
             </div>
         </div>
     </div>
@@ -30,11 +38,16 @@
 
 <script>
     import axios from "axios";
+    import OrderDetail from "./OrderDetail";
     export default {
         name: "OrderList",
+        components: {
+          OrderDetail
+        },
         data() {
             return {
-                ordersList: []
+                ordersList: [],
+                orderId: null
             }
         },
         props: [
@@ -60,6 +73,10 @@
                     }
                 })
                 await this.getOrders();
+            },
+            showDetail(id) {
+                this.orderId = id;
+                this.$bvModal.show('order-modal-detail');
             }
         }
     }
