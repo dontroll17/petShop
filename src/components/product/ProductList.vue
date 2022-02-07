@@ -49,7 +49,7 @@
 </template>
 
 <script>
-    import axios from "axios";
+    import Api from "@/api/api";
     import { mapState } from 'vuex';
     import Product from "./Product";
     import EditProduct from "./EditProduct";
@@ -80,11 +80,11 @@
         },
         methods: {
             async getProducts() {
-                const res = await axios.get('http://localhost:1111/products');
+                const res = await Api.getProducts()
                 this.products = res.data.products;
             },
             async showProductDetails(id) {
-                let res = await axios.get(`http://localhost:1111/products/${id}`);
+                let res = await Api.getProductDetails(id);
                 this.productDetails = res.data.product;
                 this.$bvModal.show('modal-1');
             },

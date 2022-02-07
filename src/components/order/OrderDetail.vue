@@ -6,9 +6,9 @@
 </template>
 
 <script>
-    import axios from "axios";
     import Product from "../product/Product";
     import {mapState} from "vuex";
+    import Api from "@/api/api";
     export default {
         name: 'OrderDetail',
         components: {
@@ -31,11 +31,7 @@
         },
         methods: {
             async getDetails() {
-               const res = await axios.get(`http://localhost:1111/orders/${this.orderId}`, {
-                   headers: {
-                       'Authorization': `token ${this.token}`
-                   }
-               });
+               const res = await Api.getOrderDetails(this.token, this.orderId);
                this.orderProduct = res.data.order.product;
                this.quantity = res.data.order.quantity;
             }

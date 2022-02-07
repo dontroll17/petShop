@@ -7,8 +7,8 @@
 </template>
 
 <script>
-    import axios from "axios";
     import {mapActions, mapState} from "vuex";
+    import Api from "@/api/api";
     export default {
         name: "CreateOrder",
         data() {
@@ -25,13 +25,9 @@
         methods: {
             ...mapActions(['getOrders']),
             async newOrder(){
-                const res = await axios.post('http://localhost:1111/orders', {
+                const res = await Api.createOrder(this.token, {
                     productId: this.orderProductId,
-                    quantity: parseInt(this.quantity)
-                }, {
-                    headers: {
-                        'Authorization': `token ${this.token}`
-                    }
+                    quantity: this.quantity
                 });
                 console.log(res);
                 this.getOrders();

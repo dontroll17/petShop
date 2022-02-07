@@ -1,4 +1,4 @@
-import axios from "axios";
+import Api from "./api/api";
 
 export default {
     state: {
@@ -19,10 +19,7 @@ export default {
     },
     actions: {
         async login({ commit }, userData) {
-            const res = await axios.post('http://localhost:1111/user/login', {
-                email: userData.email,
-                password: userData.password
-            });
+            const res = await Api.login(userData);
             commit('setToken', res.data.token);
             commit('setLoginMessage', res.data.message);
             setTimeout(() => {
@@ -30,11 +27,7 @@ export default {
             }, 2000);
         },
         async getOrders({ commit, state }) {
-            const res = await axios.get('http://localhost:1111/orders',{
-                headers: {
-                    'Authorization': `token ${state.token}`
-                }
-            });
+            const res = await Api.getOrders(state.token);
             commit('setOrderList',  res.data.orders);
         }
     }

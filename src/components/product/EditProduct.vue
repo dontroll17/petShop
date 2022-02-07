@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import axios from "axios";
+    import Api from "@/api/api";
     import {mapState} from "vuex";
 
     export default {
@@ -47,12 +47,7 @@
                 fileData.append( 'price', this.changePrice);
                 fileData.append('productimage', this.changeImg);
 
-                const res = await axios.patch(`http://localhost:1111/products/${this.productId}`,fileData,{
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        'Authorization': `token ${this.token}`
-                    }
-                });
+                const res = await Api.updateProduct(this.token, this.productId, fileData);
                 console.log(res);
                 this.$emit('successEdit');
             },

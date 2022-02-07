@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import axios from "axios";
+    import Api from "@/api/api";
 
     export default {
         name: 'Registration',
@@ -31,7 +31,7 @@
         },
         methods: {
             async registration(){
-                let res = await axios.post('http://localhost:1111/user/signup', {
+                let res = await Api.registration({
                     email: this.regInputEmail,
                     password: this.regInputPass
                 });

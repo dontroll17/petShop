@@ -17,7 +17,7 @@
 </template>
 
 <script>
-    import axios from "axios";
+    import Api from "@/api/api";
     import {mapState} from "vuex";
 
     export default {
@@ -43,12 +43,7 @@
                 fileData.append( 'price', this.priceProduct);
                 fileData.append('productimage', this.fileProduct);
 
-                let res = await axios.post('http://localhost:1111/products',fileData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        'Authorization': `token ${this.token}`
-                    }
-                });
+                let res = await Api.createProduct(this.token, fileData);
                 console.log(res);
                 this.$emit('productCreated');
             }

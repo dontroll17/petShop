@@ -15,7 +15,7 @@
 </template>
 
 <script>
-    import axios from "axios";
+    import Api from "@/api/api";
     import {mapState} from "vuex";
 
     export default {
@@ -37,11 +37,7 @@
                 this.$emit('orderModal', id);
             },
             async removeProduct(id){
-                let res = await axios.delete(`http://localhost:1111/products/${id}`,{
-                    headers: {
-                        'Authorization': `token ${this.token}`
-                    }
-                });
+                let res = await Api.deleteProduct(this.token, id)
                 if(res.status === 200)
                      this.$emit('productChange');
                 console.log(res);

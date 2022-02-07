@@ -36,9 +36,9 @@
 </template>
 
 <script>
-    import axios from "axios";
     import OrderDetail from "./OrderDetail";
     import {mapActions, mapState} from "vuex";
+    import Api from "@/api/api";
     export default {
         name: "OrderList",
         components: {
@@ -58,11 +58,7 @@
         methods: {
             ...mapActions(['getOrders']),
             async deleteOrder(id) {
-                await axios.delete(`http://localhost:1111/orders/${id}`, {
-                    headers: {
-                        'Authorization': `token ${this.token}`
-                    }
-                })
+                await Api.deleteOrder(this.token, id);
                 await this.getOrders();
             },
             showDetail(id) {
