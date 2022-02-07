@@ -8,6 +8,7 @@
 <script>
     import axios from "axios";
     import Product from "../product/Product";
+    import {mapState} from "vuex";
     export default {
         name: 'OrderDetail',
         components: {
@@ -19,9 +20,11 @@
                 quantity: null
             }
         },
+        computed: {
+            ...mapState(['token'])
+        },
         props: [
             'orderId',
-            'token'
         ],
         mounted() {
             this.getDetails();

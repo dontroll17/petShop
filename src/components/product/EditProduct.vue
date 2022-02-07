@@ -20,6 +20,7 @@
 
 <script>
     import axios from "axios";
+    import {mapState} from "vuex";
 
     export default {
         name: 'EditProduct',
@@ -31,8 +32,10 @@
                 changeId: null
             }
         },
+        computed: {
+            ...mapState(['token'])
+        },
         props: [
-            'token',
             'productId'
         ],
         methods: {

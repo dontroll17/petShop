@@ -18,6 +18,7 @@
 
 <script>
     import axios from "axios";
+    import {mapState} from "vuex";
 
     export default {
         name: 'CreateNewProduct',
@@ -27,9 +28,9 @@
                 priceProduct: 0,
             }
         },
-        props: [
-          'token'
-        ],
+        computed: {
+            ...mapState(['token'])
+        },
         methods: {
             imgProduct(e){
                 this.fileProduct = e.target.files[0];

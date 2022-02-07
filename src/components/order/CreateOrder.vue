@@ -8,6 +8,7 @@
 
 <script>
     import axios from "axios";
+    import {mapActions, mapState} from "vuex";
     export default {
         name: "CreateOrder",
         data() {
@@ -15,12 +16,14 @@
                 quantity: ''
             }
         },
+        computed: {
+            ...mapState(['token'])
+        },
         props: [
-            'token',
             'orderProductId',
-            'ordersRefresh'
         ],
         methods: {
+            ...mapActions(['getOrders']),
             async newOrder(){
                 const res = await axios.post('http://localhost:1111/orders', {
                     productId: this.orderProductId,
@@ -31,7 +34,7 @@
                     }
                 });
                 console.log(res);
-                this.ordersRefresh();
+                this.getOrders();
             }
         }
     }

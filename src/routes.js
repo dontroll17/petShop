@@ -6,8 +6,9 @@ import Login from "./components/user/Login";
 
 export default [
     { path: '/', component: Home },
-    {path: '/products', component: ProductList},
-    {path: '/orders', component: OrderList},
-    {path: '/registration', component: Registration},
-    {path: '/login', component: Login}
+    { path: '/products', component: ProductList},
+    { path: '/orders', component: OrderList},
+    { path: '/registration', component: Registration},
+    { path: '/login', component: Login},
+    { path: '*', redirect: '/'}
 ]

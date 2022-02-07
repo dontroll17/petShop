@@ -13,10 +13,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item, idx) in ordersList" :key="item._id">
+                        <tr v-for="(item, idx) in orderList" :key="item._id">
                             <th scope="row">{{idx + 1}}</th>
                             <td @click="showDetail(item._id)" class="product-name">{{ item._id }}</td>
-                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.product ? item.product.name : ''}}</td>
                             <td>{{ item.quantity }}</td>
                             <td class="td-delete">
                                 <button @click="deleteOrder(item._id)" class="btn btn-danger">X</button>
@@ -28,7 +28,6 @@
                 <b-modal id="order-modal-detail" title="Детали">
                     <OrderDetail
                         :orderId="orderId"
-                        :token="token"
                     />
                 </b-modal>
             </div>
@@ -39,33 +38,25 @@
 <script>
     import axios from "axios";
     import OrderDetail from "./OrderDetail";
+    import {mapActions, mapState} from "vuex";
     export default {
         name: "OrderList",
         components: {
-          OrderDetail
+            OrderDetail
         },
         data() {
             return {
-                ordersList: [],
                 orderId: null
             }
         },
-        props: [
-            'token'
-        ],
+        computed: {
+            ...mapState(['token', 'orderList'])
+        },
         async mounted(){
             await this.getOrders();
-            this.$emit('readyForRefresh', this.getOrders);
         },
         methods: {
-            async getOrders() {
-                const res = await axios.get('http://localhost:1111/orders',{
-                    headers: {
-                        'Authorization': `token ${this.token}`
-                    }
-                });
-                this.ordersList = res.data.orders;
-            },
+            ...mapActions(['getOrders']),
             async deleteOrder(id) {
                 await axios.delete(`http://localhost:1111/orders/${id}`, {
                     headers: {

@@ -16,12 +16,15 @@
 
 <script>
     import axios from "axios";
+    import {mapState} from "vuex";
 
     export default {
         name: 'Product',
+        computed: {
+            ...mapState(['token'])
+        },
         props: [
             'product',
-            'token'
         ],
         methods: {
             getProductById(id){

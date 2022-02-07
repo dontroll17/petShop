@@ -8,7 +8,7 @@
             <label for="loginPassword" class="form-label">Password</label>
             <input v-model="loginInputPass" type="password" class="form-control" id="loginPassword">
         </div>
-        <button @click.prevent="login" type="submit" class="btn btn-primary" id="log-btn">Submit</button>
+        <button @click.prevent="handleLogin" type="submit" class="btn btn-primary" id="log-btn">Submit</button>
         <div class="alert-wrapper mt-3">
             <div v-if="loginMessage" class="alert alert-success hide" id="log-alert" role="alert">
                 {{ loginMessage }}
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import axios from "axios";
+    import {mapActions, mapState} from 'vuex';
 
     export default {
         name: 'Login',
@@ -26,20 +26,18 @@
             return {
                 loginInputEmail: 'ww@ww.w',
                 loginInputPass: '123',
-                loginMessage: '',
             }
         },
+        computed: {
+            ...mapState(['loginMessage'])
+        },
         methods: {
-            async login(){
-                let res = await axios.post('http://localhost:1111/user/login', {
+            ...mapActions(['login']),
+            async handleLogin(){
+                this.login({
                     email: this.loginInputEmail,
                     password: this.loginInputPass
                 });
-                this.loginMessage = res.data.message;
-                setTimeout(() => {
-                    this.loginMessage = '';
-                }, 2000)
-                this.$emit('loginSuccess', res.data.token);
             },
         }
     }
