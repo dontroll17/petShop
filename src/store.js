@@ -4,7 +4,8 @@ export default {
     state: {
         token: null,
         loginMessage: null,
-        orderList: null
+        orderList: null,
+        productList: null
     },
     mutations: {
         setToken(state, token) {
@@ -15,6 +16,9 @@ export default {
         },
         setOrderList(state, orderList){
             state.orderList = orderList;
+        },
+        setProductList(state, productList){
+            state.productList = productList;
         }
     },
     actions: {
@@ -29,6 +33,10 @@ export default {
         async getOrders({ commit, state }) {
             const res = await Api.getOrders(state.token);
             commit('setOrderList',  res.data.orders);
-        }
+        },
+        async getProducts({ commit }) {
+            const res = await Api.getProducts();
+            commit('setProductList', res.data.products);
+        },
     }
 }

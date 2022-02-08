@@ -20,7 +20,7 @@
 
 <script>
     import Api from "@/api/api";
-    import {mapState} from "vuex";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'EditProduct',
@@ -39,6 +39,7 @@
             'productId'
         ],
         methods: {
+            ...mapActions(['getProducts']),
             async changeProduct(){
                 if(!this.token) return;
 
@@ -47,9 +48,8 @@
                 fileData.append( 'price', this.changePrice);
                 fileData.append('productimage', this.changeImg);
 
-                const res = await Api.updateProduct(this.token, this.productId, fileData);
-                console.log(res);
-                this.$emit('successEdit');
+                await Api.updateProduct(this.token, this.productId, fileData);
+                await this.getProducts();
             },
             changeProductImg(e){
                 this.changeImg = e.target.files[0];

@@ -16,7 +16,7 @@
 
 <script>
     import Api from "@/api/api";
-    import {mapState} from "vuex";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'Product',
@@ -27,6 +27,7 @@
             'product',
         ],
         methods: {
+            ...mapActions(['getProducts']),
             getProductById(id){
                 this.$emit('showDetails', id);
             },
@@ -39,8 +40,7 @@
             async removeProduct(id){
                 let res = await Api.deleteProduct(this.token, id)
                 if(res.status === 200)
-                     this.$emit('productChange');
-                console.log(res);
+                     await this.getProducts();
             }
         }
     }

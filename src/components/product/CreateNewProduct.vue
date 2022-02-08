@@ -18,7 +18,7 @@
 
 <script>
     import Api from "@/api/api";
-    import {mapState} from "vuex";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'CreateNewProduct',
@@ -32,6 +32,7 @@
             ...mapState(['token'])
         },
         methods: {
+            ...mapActions(['getProducts']),
             imgProduct(e){
                 this.fileProduct = e.target.files[0];
             },
@@ -45,7 +46,7 @@
 
                 let res = await Api.createProduct(this.token, fileData);
                 console.log(res);
-                this.$emit('productCreated');
+                await this.getProducts();
             }
         }
     }

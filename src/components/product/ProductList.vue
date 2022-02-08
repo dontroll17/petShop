@@ -4,16 +4,13 @@
         <div class="row">
             <div v-if="token" class="col-3 p-2">
                 <h3>Create new product</h3>
-                <CreateNewProduct
-                    @productCreated="getProducts"
-                />
+                <CreateNewProduct/>
             </div>
             <div class="col">
                 <div class="row">
-                    <div v-for="item in products" :key="item._id" class="col-3 p-2">
+                    <div v-for="item in productList" :key="item._id" class="col-3 p-2">
                         <Product
                             :product="item"
-                            @productChange="getProducts"
                             @showDetails="showProductDetails"
                             @editProduct="editProduct"
                             @orderModal="showOrderModal"
@@ -28,14 +25,12 @@
                 <Product
                     :product="productDetails"
                     @editProduct="editProduct"
-                    @productChange="getProducts"
                     @orderModal="showOrderModal"
                 />
             </b-modal>
             <b-modal id="modal-2" title="Измени котика!">
                 <EditProduct
                     :productId="productEditId"
-                    @successEdit="getProducts"
                 />
             </b-modal>
             <b-modal id="order-modal" title="Buy!!!">
@@ -50,7 +45,7 @@
 
 <script>
     import Api from "@/api/api";
-    import { mapState } from 'vuex';
+    import {mapActions, mapState} from 'vuex';
     import Product from "./Product";
     import EditProduct from "./EditProduct";
     import CreateNewProduct from "./CreateNewProduct";
@@ -66,23 +61,19 @@
         },
         data() {
             return {
-                products: [],
                 productDetails: null,
                 productEditId: null,
                 orderProductId: null
             }
         },
         computed: {
-            ...mapState(['token'])
+            ...mapState(['token', 'productList'])
         },
         async mounted() {
             await this.getProducts();
         },
         methods: {
-            async getProducts() {
-                const res = await Api.getProducts()
-                this.products = res.data.products;
-            },
+            ...mapActions(['getProducts']),
             async showProductDetails(id) {
                 let res = await Api.getProductDetails(id);
                 this.productDetails = res.data.product;
