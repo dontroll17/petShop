@@ -5,6 +5,9 @@ body{
 .product-name{
     cursor: pointer;
 }
+.logout{
+    cursor: pointer;
+}
 .td-delete{
     width: 50px;
 }

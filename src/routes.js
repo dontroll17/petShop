@@ -3,8 +3,9 @@ import ProductList from "./components/product/ProductList";
 import Home from "./components/Home";
 import Registration from "./components/user/Registration";
 import Login from "./components/user/Login";
+import VueRouter from "vue-router";
 
-export default [
+const routes = [
     { path: '/', component: Home },
     { path: '/products', component: ProductList},
     { path: '/orders', component: OrderList},
@@ -12,3 +13,8 @@ export default [
     { path: '/login', component: Login},
     { path: '*', redirect: '/'}
 ]
+
+export default new VueRouter({
+    mode: 'history',
+    routes // short for `routes: routes`
+});

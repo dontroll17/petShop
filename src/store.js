@@ -1,4 +1,5 @@
 import Api from "./api/api";
+import router from "./routes";
 
 export default {
     state: {
@@ -26,8 +27,10 @@ export default {
             const res = await Api.login(userData);
             commit('setToken', res.data.token);
             commit('setLoginMessage', res.data.message);
+            localStorage.setItem('token', res.data.token);
             setTimeout(() => {
                 commit('setLoginMessage', '');
+                router.push({ path: '/'});
             }, 2000);
         },
         async getOrders({ commit, state }) {

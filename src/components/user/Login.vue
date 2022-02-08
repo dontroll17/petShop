@@ -1,20 +1,28 @@
 <template>
-    <form>
-        <div class="mb-3">
-            <label for="loginEmail" class="form-label">Email address</label>
-            <input v-model="loginInputEmail" type="email" class="form-control" id="loginEmail">
-        </div>
-        <div class="mb-3">
-            <label for="loginPassword" class="form-label">Password</label>
-            <input v-model="loginInputPass" type="password" class="form-control" id="loginPassword">
-        </div>
-        <button @click.prevent="handleLogin" type="submit" class="btn btn-primary" id="log-btn">Submit</button>
-        <div class="alert-wrapper mt-3">
-            <div v-if="loginMessage" class="alert alert-success hide" id="log-alert" role="alert">
-                {{ loginMessage }}
+    <div class="container">
+        <div class="row justify-content-center pt-5">
+            <div class="col-4">
+                <h1>Login</h1>
+                <form>
+                    <div class="mb-3">
+                        <label for="loginEmail" class="form-label">Email address</label>
+                        <input v-model="loginInputEmail" type="email" class="form-control" id="loginEmail">
+                    </div>
+                    <div class="mb-3">
+                        <label for="loginPassword" class="form-label">Password</label>
+                        <input v-model="loginInputPass" type="password" class="form-control" id="loginPassword">
+                    </div>
+                    <button @click.prevent="handleLogin" type="submit" class="btn btn-primary" id="log-btn">Submit</button>
+                    <div class="alert-wrapper mt-3">
+                        <div v-if="loginMessage" class="alert alert-success hide" id="log-alert" role="alert">
+                            {{ loginMessage }}
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-    </form>
+    </div>
+
 </template>
 
 <script>
