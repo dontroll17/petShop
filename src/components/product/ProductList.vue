@@ -2,10 +2,6 @@
     <div class="container">
         <h1>Products</h1>
         <div class="row">
-            <div v-if="token" class="col-3 p-2">
-                <h3>Create new product</h3>
-                <CreateNewProduct/>
-            </div>
             <div class="col">
                 <div class="row">
                     <div v-for="item in productList" :key="item._id" class="col-3 p-2">
@@ -48,7 +44,6 @@
     import {mapActions, mapState} from 'vuex';
     import Product from "./Product";
     import EditProduct from "./EditProduct";
-    import CreateNewProduct from "./CreateNewProduct";
     import CreateOrder from "../order/CreateOrder";
 
     export default {
@@ -56,7 +51,6 @@
         components: {
             Product,
             EditProduct,
-            CreateNewProduct,
             CreateOrder,
         },
         data() {

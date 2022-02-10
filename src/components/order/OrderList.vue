@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h1>Orders from Morder</h1>
+        <h1>Orders</h1>
         <div class="row">
             <div class="col">
                 <table class="table table-hover">

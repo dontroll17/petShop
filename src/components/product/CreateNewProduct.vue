@@ -44,8 +44,7 @@
                 fileData.append( 'price', this.priceProduct);
                 fileData.append('productimage', this.fileProduct);
 
-                let res = await Api.createProduct(this.token, fileData);
-                console.log(res);
+                await Api.createProduct(this.token, fileData);
                 await this.getProducts();
             }
         }
